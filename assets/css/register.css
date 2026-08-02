@@ -1,0 +1,102 @@
+/* ==========================================
+   ملف register.css - خاص وحصري بصفحة register.php فقط
+========================================== */
+
+/* 1. إرجاع خلفية الصفحة الكحلية لصفحة الريجستر وإخفاء عنوان h2 الخارجي */
+body {
+    background-color: #08152f !important;
+}
+
+body > h2 {
+    display: none !important;
+}
+
+/* 2. استهداف الفورم الذي يحتوي على زرار register فقط (عشان ما يلمسش اللوجن نهائياً!) */
+form:has(button[name="register"]),
+form:has(input[name="phone"]) {
+    background-color: #111a2e !important;
+    width: 90% !important;
+    max-width: 360px !important;
+    margin: 30px auto 40px auto !important;
+    padding: 20px 25px 25px 25px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* 3. كلمة Register تظهر فوق فقط داخل فورم الريجستر (ولن تظهر في اللوجن أبداً) */
+form:has(button[name="register"])::before,
+form:has(input[name="phone"])::before {
+    content: "Register";
+    display: block;
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+/* 4. إلغاء تأثير <br> داخل فورم الريجستر */
+form:has(button[name="register"]) br,
+form:has(input[name="phone"]) br {
+    display: none !important;
+}
+
+/* 5. عناوين الخانات (Labels) */
+form:has(button[name="register"]) label,
+form:has(input[name="phone"]) label {
+    color: #8b9bb4 !important;
+    font-size: 12px !important;
+    margin-top: 8px !important;
+    margin-bottom: 4px !important;
+    text-align: left !important;
+    display: block !important;
+}
+
+/* 6. مدخلات البيانات الخاصة بالريجستر */
+form:has(button[name="register"]) input,
+form:has(button[name="register"]) select,
+form:has(input[name="phone"]) input,
+form:has(input[name="phone"]) select {
+    background-color: #1a263d !important;
+    color: #ffffff !important;
+    border: 1px solid transparent !important;
+    border-radius: 6px !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    height: 35px !important;
+    width: 100% !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+}
+
+form:has(button[name="register"]) input:focus,
+form:has(button[name="register"]) select:focus {
+    border-color: #3b5278 !important;
+}
+
+form:has(button[name="register"]) select option {
+    background-color: #1a263d !important;
+    color: #ffffff !important;
+}
+
+/* 7. زرار التسجيل الخاص بالريجستر */
+form:has(button[name="register"]) button[type="submit"] {
+    background-color: #3b5278 !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 8px !important;
+    height: 38px !important;
+    margin-top: 18px !important;
+    cursor: pointer !important;
+    width: 100% !important;
+    transition: background-color 0.2s !important;
+}
+
+form:has(button[name="register"]) button[type="submit"]:hover {
+    background-color: #4a6592 !important;
+}

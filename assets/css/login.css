@@ -1,0 +1,94 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    direction: ltr;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+/* -------------------------login page-------------------------------------- */
+.login-page{
+    background-color:#08152f;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 695px;
+}
+
+
+.login-contaier{
+   background-color: #111a2e;
+    color: #ecefe6;
+    width: 27vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.login-header h3{
+    font-weight: bold;
+    font-size: 36px;
+    padding: 20px 0 15px 0;
+}
+
+.login-header p{
+ padding-bottom: 25px ;
+    font-size: 15px;
+    font-weight: 100;
+}
+
+.form-part{
+    width: 24vw;
+}
+
+
+.form-in-part  label{
+    display: inline-block; 
+    margin: 6px 0 6px 0;
+    color: #8b9bb4;
+}
+
+.form-in-part  input{
+    background-color: #1a263d;
+    padding: 12px;
+    width: 24vw;
+    border: none;
+    border-radius:7px;
+    margin-bottom: 10px;
+}
+
+
+.login-btn{
+    width: 24vw;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #3b5278;
+    border: none;
+    border-radius: 12px;
+}
+
+.login-btn:hover{
+    background-color: #4a6592;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.login-card-footer{
+    font-size: 11px;
+    margin-top: 21px;
+}
+
+.login-card-footer a{
+    text-decoration: none;
+    color: #8da4c4;
+}
+
+
+/* -------------------------login page-------------------------------------- */
+
+
