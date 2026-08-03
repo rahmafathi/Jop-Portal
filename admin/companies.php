@@ -1,6 +1,6 @@
 <?php
 // admin/admin/companies.php
-include '../../includes/db.php';
+include '../includes/db.php';
 
 if (isset($_GET['delete'])) {
     $cid = intval($_GET['delete']);
