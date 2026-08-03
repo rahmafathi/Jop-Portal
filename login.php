@@ -9,10 +9,23 @@ include_once "includes/functions.php";
 include_once "includes/db.php";
 
 if (isset($_SESSION['user_id'])) {
-    if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+
+    if ($_SESSION['role'] == 'admin') {
+
         redirect('admin/dashboard.php');
+
+    } elseif ($_SESSION['role'] == 'company') {
+
+        redirect('company/dashboard.php');
+
+    } elseif ($_SESSION['role'] == 'job_seeker') {
+
+        redirect('seeker/dashboard.php');
+
     } else {
+
         redirect('index.php');
+
     }
 }
 
@@ -37,10 +50,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['name'] = $user['name'];
 
             if ($user['role'] == 'admin') {
-                redirect('admin/dashboard.php');
-            } else {
-                redirect('index.php');
-            }
+
+    redirect('admin/dashboard.php');
+
+} elseif ($user['role'] == 'company') {
+
+    redirect('company/dashboard.php');
+
+} elseif ($user['role'] == 'job_seeker') {
+
+    redirect('seeker/dashboard.php');
+
+} else {
+
+    redirect('index.php');
+
+}
 
         } else {
 
