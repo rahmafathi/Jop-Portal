@@ -20,7 +20,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/startbootstrap-sb-admin-2@4.1.4/css/sb-admin-2.min.css">
-    
+    <link rel="stylesheet" href="../assets/css/add_jobs.css">
     <title>Job Portal</title>
 </head>
 

@@ -1,4 +1,6 @@
 <?php
+// admin/admin/profile.php
+include '../includes/db.php';
 // admin/profile.php
 include '../includes/db.php';
 
