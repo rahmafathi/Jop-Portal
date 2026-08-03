@@ -1,0 +1,138 @@
+/* assets/admin-style.css */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-main: #f8fafc;
+    --sidebar-bg: #ffffff;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --primary-color: #4f46e5;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* --- Sidebar Styling --- */
+.sidebar {
+    min-height: 100vh;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 1.5rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    border-radius: 10px;
+    margin: 4px 12px;
+    transition: all 0.2s ease;
+}
+
+.sidebar a:hover, 
+.sidebar a.active {
+    background: var(--primary-color);
+    color: #ffffff !important;
+    box-shadow: 0px 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+/* --- Cards & Stats --- */
+.stat-card {
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--card-bg);
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover { 
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.05);
+}
+
+.icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    background: #f1f5f9;
+}
+
+.card-custom {
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+/* --- Tables --- */
+.table-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.table {
+    color: var(--text-primary) !important;
+}
+
+.table thead th {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem;
+    background: transparent;
+}
+
+.table td {
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.company-icon, .job-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    background: #e0e7ff;
+    color: #4f46e5;
+}
+
+/* --- Headings --- */
+h3, h5 {
+    color: var(--text-primary) !important;
+}
+.text-muted {
+    color: var(--text-secondary) !important;
+}
