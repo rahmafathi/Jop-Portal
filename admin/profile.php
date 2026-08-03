@@ -1,6 +1,9 @@
 <?php
-// admin/admin/profile.php
-include '../../includes/db.php';
+// admin/profile.php
+include '../includes/db.php';
+
+// تعريف الرابط الأساسي للموقع عشان نستخدمه في أي لينك من غير لخبطة
+$base_url = "http://localhost/Jop-Portal/";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +12,9 @@ include '../../includes/db.php';
     <title>Admin Profile | JobPortal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="../assets/css/users.css?v=<?php echo time(); ?>"></head>
+    <!-- استخدام الرابط الأساسي للـ CSS عشان التنسيق ما يبوظش أبداً -->
+    <link rel="stylesheet" href="<?php echo $base_url; ?>assets/css/users.css?v=<?php echo time(); ?>">
+</head>
 <body>
 <div class="container-fluid p-0">
     <div class="row g-0">
@@ -26,7 +31,8 @@ include '../../includes/db.php';
                 <a href="profile.php" class="active"><i class="fa-solid fa-user-gear"></i> Admin Profile</a>
             </div>
             <div class="p-3">
-                <a href="../../logout.php" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                <!-- استخدام الرابط الأساسي للـ Logout عشان يشتغل بدون أخطاء -->
+                <a href="<?php echo $base_url; ?>logout.php" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             </div>
         </div>
 
