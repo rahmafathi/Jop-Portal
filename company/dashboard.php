@@ -24,7 +24,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || strtolower($_SE
 $company_id = $_SESSION['user_id'];
 
 // 2. استدعاء الـ Header
-include_once "../header.php";
+include_once "../includes/header.php";
 ?>
 
 <div class="container my-5" dir="ltr">
@@ -145,5 +145,5 @@ include_once "../header.php";
 </div>
 
 <?php
-include_once "../footer.php";
+include_once "../includes/footer.php";
 ?>
