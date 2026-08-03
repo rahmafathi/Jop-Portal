@@ -8,10 +8,8 @@ include_once '../includes/functions.php';
 include_once '../includes/header.php';
 include_once '../includes/nav.php';
 
-// تحديد الـ company_id الحالي (افتراضي 1 لو مش مسجل دخول)
 $company_id = $_SESSION['company_id'] ?? 1;
 
-// جلب الوظائف الخاصة بالشركة دي فقط من قاعدة البيانات
 $query = "SELECT * FROM jobs WHERE company_id = '$company_id' ORDER BY id DESC";
 $result = mysqli_query($conn, $query);
 ?>
@@ -20,7 +18,7 @@ $result = mysqli_query($conn, $query);
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="page-title mb-1">My Posted Jobs</h2>
-            <p class="text-muted">Manage your job listings, view applicants, and update details.</p>
+            <p class="text-muted">Manage your job listings and manage job status.</p>
         </div>
         <a href="add_jobs.php" class="btn btn-primary">+ Add New Job</a>
     </div>
@@ -52,19 +50,16 @@ $result = mysqli_query($conn, $query);
                                 </td>
                                 <td><?php echo !empty($job['salary']) ? '$' . number_format($job['salary'], 2) : 'Not Specified'; ?></td>
                                 <td>
-                                    <!-- زر عرض المتقدمين يرسل job_id -->
-                                    <a href="view_applicants.php?job_id=<?php echo $job['id']; ?>" class="btn btn-sm btn-outline-info">View</a>
+                                    <span class="text-muted">No Applicants</span>
                                 </td>
                                 <td>
+                                    <!-- زر الحالة (Open) - ممكن نخليه يظهر حالتها بس بدون لينك غلط -->
                                     <span class="badge bg-success px-2 py-1">
                                         <?php echo htmlspecialchars($job['status']); ?>
                                     </span>
                                 </td>
                                 <td class="text-end">
-                                    <!-- زر التعديل يرسل id -->
-                                    <a href="edit_job.php?id=<?php echo $job['id']; ?>" class="btn btn-sm btn-outline-primary me-1">Edit</a>
-                                    
-                                    <!-- زر الحذف يرسل id مع رسالة تأكيد -->
+                                    <!-- زر الحذف فقط المتاح حالياً للتأكد إنه شغال -->
                                     <a href="delete_job.php?id=<?php echo $job['id']; ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this job?');">Delete</a>
                                 </td>
                             </tr>
@@ -72,9 +67,6 @@ $result = mysqli_query($conn, $query);
                     <?php else: ?>
                         <tr>
                             <td colspan="6" class="text-center py-5">
-                                <div class="text-muted mb-3">
-                                    <i class="bi bi-folder2-open display-4"></i>
-                                </div>
                                 <p class="text-muted mb-2">No jobs found. Click "Add New Job" to post your first job!</p>
                                 <a href="add_jobs.php" class="btn btn-primary btn-sm mt-2">Add New Job</a>
                             </td>
