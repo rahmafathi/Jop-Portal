@@ -1,6 +1,6 @@
 <?php
 // admin/admin/profile.php
-include '../../includes/db.php';
+include '../includes/db.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
