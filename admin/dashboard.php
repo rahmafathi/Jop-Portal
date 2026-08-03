@@ -32,7 +32,7 @@ $total_applications = getCount($conn, "SELECT COUNT(*) as total FROM application
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../assets/css/admin-style.css">
+    <link rel="stylesheet" href="../assets/css/users.css?v=<?php echo time(); ?>">
 </head>
 <body>
 <div class="container-fluid p-0">

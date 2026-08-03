@@ -30,8 +30,7 @@ if ($conn) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- ربط الـ CSS بمسار كامل ومباشر يمنع أي لخبطة -->
-    <link rel="stylesheet" href="/jops/assets/css/jobs.css?v=<?php echo time(); ?>">
-</head>
+<link rel="stylesheet" href="../assets/css/users.css?v=<?php echo time(); ?>"></head>
 <body>
 <div class="container-fluid p-0">
     <div class="row g-0">
