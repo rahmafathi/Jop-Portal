@@ -38,22 +38,7 @@ $total_applications = getCount($conn, "SELECT COUNT(*) as total FROM application
 <div class="container-fluid p-0">
     <div class="row g-0">
         
-        <!-- Sidebar Navigation -->
-        <div class="col-md-2 sidebar d-flex flex-column">
-            <div class="brand">
-                <i class="fa-solid fa-briefcase text-primary me-2"></i> JobPortal
-            </div>
-            <div class="mt-3 flex-grow-1">
-                <a href="dashboard.php" class="active"><i class="fa-solid fa-chart-pie"></i> Overview</a>
-                <a href="users.php"><i class="fa-solid fa-users"></i> Job Seekers</a>
-                <a href="companies.php"><i class="fa-solid fa-building"></i> Companies</a>
-                <a href="jobs.php"><i class="fa-solid fa-list-check"></i> Manage Jobs</a>
-                <a href="profile.php"><i class="fa-solid fa-user-gear"></i> Admin Profile</a>
-            </div>
-            <div class="p-3">
-                <a href="../logout.php" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-            </div>
-        </div>
+     <?php include 'sidebar.php'; ?>
 
         <!-- Main Content Area -->
         <div class="col-md-10 p-4">
