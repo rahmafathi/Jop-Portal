@@ -1,6 +1,9 @@
 <?php
-// admin/admin/profile.php
+// admin/profile.php
 include '../includes/db.php';
+
+// تعريف الـ Base URL عشان الـ CSS يشتغل صح
+$base_url = "http://localhost/Jop-Portal/";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,15 +12,14 @@ include '../includes/db.php';
     <title>Admin Profile | JobPortal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- استخدام الرابط الأساسي للـ CSS عشان التنسيق ما يبوظش أبداً -->
+    <!-- ربط ملف الـ CSS بالـ base_url بشكل صحيح -->
     <link rel="stylesheet" href="<?php echo $base_url; ?>assets/css/users.css?v=<?php echo time(); ?>">
 </head>
 <body>
 <div class="container-fluid p-0">
     <div class="row g-0">
         
-        
-            <?php include 'sidebar.php'; ?>
+        <?php include 'sidebar.php'; ?>
 
         <div class="col-md-10 p-4">
             <h3 class="fw-bold mb-1">Admin Profile</h3>
