@@ -4,34 +4,46 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// استدعاء ملف الدوال وملف اتصال قاعدة البيانات
-require_once "../includes/functions.php"; // أو المسار الخاص بـ functions.php حسب هيكلة مشروعك
-require_once "../includes/db.php";        // أو المسار الخاص بـ db.php
+// استدعاء ملفات الاتصال والدوال (تأكد من المسارات حسب مكان ملف db.php و functions.php)
+// لو الملفات بره فولدر company مباشرة استخدم المسار ده:
+// استدعاء ملفات الاتصال والدوال من داخل مجلد includes
+require_once "../includes/functions.php"; 
+require_once "../includes/db.php";
+
 
 // التأكد من أن المستخدم سجل دخوله وأنه من نوع Company
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || strtolower($_SESSION['role']) !== 'company') {
-    redirect("../login.php");
+    if (function_exists('redirect')) {
+        redirect("../login.php");
+    } else {
+        header("Location: ../login.php");
+        exit();
+    }
 }
+
 $company_id = $_SESSION['user_id'];
 
-// 2. استدعاء הـ Header
+// 2. استدعاء الـ Header
 include_once "../header.php";
-
 ?>
 
 <div class="container my-5" dir="ltr">
     
     <!-- 3. استدعاء عرض الرسائل مباشرة بعد الـ Header -->
-    <?php displayMessage(); ?>
+    <?php 
+    if (function_exists('displayMessage')) {
+        displayMessage(); 
+    }
+    ?>
 
     <h2 class="mb-4 text-dark fw-bold">Company Dashboard</h2>
 
     <?php
     // جلب الإحصائيات من قاعدة البيانات
-    
-    // 1. اجمالي عدد الوظائف المنشورة للشركة
-    $all_jobs = selectWhere($conn, 'jobs', 'company_id', $company_id);
-    $total_jobs_count = count($all_jobs);
+
+    // 1. إجمالي عدد الوظائف المنشورة للشركة
+    $jobs_query = mysqli_query($conn, "SELECT * FROM jobs WHERE company_id = '$company_id'");
+    $total_jobs_count = ($jobs_query) ? mysqli_num_rows($jobs_query) : 0;
 
     // 2. عدد المتقدمين على وظائف الشركة
     $applications_query = mysqli_query($conn, "SELECT a.* FROM applications a JOIN jobs j ON a.job_id = j.id WHERE j.company_id = '$company_id'");

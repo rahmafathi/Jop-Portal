@@ -1,6 +1,6 @@
 <?php
 // admin/admin/dashboard.php
-include '../../includes/db.php';
+include '../includes/db.php';
 
 function getCount($conn, $query) {
     if (!$conn) return 0;
@@ -32,7 +32,7 @@ $total_applications = getCount($conn, "SELECT COUNT(*) as total FROM application
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../../assets/css/admin-style.css">
+    <link rel="stylesheet" href="../assets/css/admin-style.css">
 </head>
 <body>
 <div class="container-fluid p-0">
@@ -51,7 +51,7 @@ $total_applications = getCount($conn, "SELECT COUNT(*) as total FROM application
                 <a href="profile.php"><i class="fa-solid fa-user-gear"></i> Admin Profile</a>
             </div>
             <div class="p-3">
-                <a href="../../logout.php" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                <a href="../logout.php" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             </div>
         </div>
 
