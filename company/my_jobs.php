@@ -1,55 +1,29 @@
 <?php
-// 1. بدء الـ Session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// استدعاء ملفات الاتصال والدوال من مجلد includes
 require_once "../includes/functions.php"; 
 require_once "../includes/db.php";
 
-// تحديد ID الشركة (لو مسجلة دخول هياخد id بتاعك، لو مش مسجلة هياخد 1 للتجربة)
-$company_id = $_SESSION['user_id'] ?? 1;
+$company_id = 1; 
 
-// --- 2. معالجة عمليات الحذف وتغيير الحالة (Active / Closed) ---
+if (isset($_GET['action']) && isset($_GET['job_id'])) {
+    $job_id = intval($_GET['job_id']);
+    $action = $_GET['action'];
 
-// أ) مسح الوظيفة (Delete)
-if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
-    $job_id = intval($_GET['id']);
-    
-    $delete_query = "DELETE FROM jobs WHERE id = '$job_id' AND company_id = '$company_id'";
-    if (mysqli_query($conn, $delete_query)) {
-        if (function_exists('setMessage')) {
-            setMessage('success', 'Job deleted successfully.');
-        }
-    } else {
-        if (function_exists('setMessage')) {
-            setMessage('danger', 'Failed to delete job.');
-        }
-    }
-    header("Location: my_jobs.php");
-    exit();
-}
-
-// ب) تغيير حالة الوظيفة (Toggle Status)
-if (isset($_GET['action']) && $_GET['action'] === 'toggle' && isset($_GET['id'])) {
-    $job_id = intval($_GET['id']);
-    
-    $status_check = mysqli_query($conn, "SELECT status FROM jobs WHERE id = '$job_id' AND company_id = '$company_id'");
-    if ($status_check && mysqli_num_rows($status_check) > 0) {
-        $row = mysqli_fetch_assoc($status_check);
-        $new_status = ($row['status'] === 'active') ? 'closed' : 'active';
-        
+    if ($action === 'toggle_status') {
+        $current_status = $_GET['status'] ?? 'open';
+        $new_status = ($current_status === 'open') ? 'closed' : 'open';
         mysqli_query($conn, "UPDATE jobs SET status = '$new_status' WHERE id = '$job_id' AND company_id = '$company_id'");
-        if (function_exists('setMessage')) {
-            setMessage('success', 'Job status updated successfully.');
-        }
+    } elseif ($action === 'delete') {
+        mysqli_query($conn, "DELETE FROM jobs WHERE id = '$job_id' AND company_id = '$company_id'");
     }
+    
     header("Location: my_jobs.php");
     exit();
 }
 
-// --- 3. استدعاء الـ Header من فولدر includes ---
 if (file_exists("../includes/header.php")) {
     include_once "../includes/header.php";
 } elseif (file_exists("../header.php")) {
@@ -57,9 +31,13 @@ if (file_exists("../includes/header.php")) {
 }
 ?>
 
+<!-- Bootstrap & FontAwesome احتياطي للتأكد من التنسيق -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../assets/css/css/company-job.css?v=2">
+
 <div class="container my-5" dir="ltr">
-    
-    <!-- عرض الرسائل التنبيهية -->
+
     <?php 
     if (function_exists('displayMessage')) {
         displayMessage(); 
@@ -67,119 +45,115 @@ if (file_exists("../includes/header.php")) {
     ?>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="fw-bold text-dark mb-1">My Posted Jobs</h2>
-            <p class="text-muted mb-0">Manage all jobs you have posted, track status, or add new listings.</p>
-        </div>
-        <a href="add_jops.php" class="btn btn-primary fw-semibold px-4">
-            <i class="fas fa-plus me-2"></i>Post New Job
+        <h2 class="text-dark fw-bold mb-0">My Posted Jobs</h2>
+        <a href="add_jobs.php" class="btn btn-primary fw-semibold">
+            <i class="fas fa-plus-circle me-1"></i> Add New Job
         </a>
     </div>
 
     <?php
-    // فلترة الوظائف إذا جاء خيار status في الرابط (مثل my_jobs.php?status=active)
     $status_filter = "";
-    if (isset($_GET['status']) && in_array($_GET['status'], ['active', 'closed'])) {
-        $clean_status = mysqli_real_escape_string($conn, $_GET['status']);
-        $status_filter = " AND status = '$clean_status'";
+    if (isset($_GET['status'])) {
+        $filter = $_GET['status'];
+        if ($filter === 'active' || $filter === 'open') {
+            $status_filter = " AND status = 'open' ";
+        } elseif ($filter === 'closed') {
+            $status_filter = " AND status = 'closed' ";
+        }
     }
 
-    // جلب كل الوظائف الخاصة بهذه الشركة
-    $jobs_sql = "SELECT * FROM jobs WHERE company_id = '$company_id' $status_filter ORDER BY id DESC";
+    $jobs_sql = "SELECT j.*, 
+                (SELECT COUNT(*) FROM application a WHERE a.job_id = j.id) as applicants_count 
+                FROM jobs j 
+                WHERE j.company_id = '$company_id' $status_filter 
+                ORDER BY j.created_at DESC";
+
     $jobs_result = mysqli_query($conn, $jobs_sql);
     ?>
 
-    <div class="card shadow-sm border-0 rounded-3">
+    <div class="card jobs-card shadow-sm">
         <div class="card-body p-0">
-            <?php if ($jobs_result && mysqli_num_rows($jobs_result) > 0): ?>
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="ps-4">Job Title</th>
-                                <th>Category / Type</th>
-                                <th>Location</th>
-                                <th>Status</th>
-                                <th class="text-end pe-4">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle jobs-table mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="ps-4">Job Title</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Salary</th>
+                            <th scope="col">Applicants</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if ($jobs_result && mysqli_num_rows($jobs_result) > 0): ?>
                             <?php while ($job = mysqli_fetch_assoc($jobs_result)): ?>
                                 <tr>
-                                    <!-- المسمى الوظيفي -->
                                     <td class="ps-4">
-                                        <div class="fw-bold text-dark"><?php echo htmlspecialchars($job['title'] ?? 'Untitled'); ?></div>
-                                        <small class="text-muted">
-                                            Posted on: <?php echo isset($job['created_at']) ? date('M d, Y', strtotime($job['created_at'])) : 'N/A'; ?>
-                                        </small>
+                                        <div class="fw-bold text-dark"><?php echo htmlspecialchars($job['title']); ?></div>
+                                        <div class="text-muted small"><i class="fas fa-map-marker-alt me-1"></i><?php echo htmlspecialchars($job['location'] ?? 'Cairo'); ?></div>
                                     </td>
 
-                                    <!-- التخصص / نوع الوظيفة -->
                                     <td>
-                                        <span class="badge bg-light text-dark border">
-                                            <?php echo htmlspecialchars($job['job_type'] ?? $job['type'] ?? 'Full Time'); ?>
+                                        <span class="badge bg-info text-dark">
+                                            <?php echo htmlspecialchars($job['job_type'] ?? 'Full Time'); ?>
                                         </span>
                                     </td>
 
-                                    <!-- المكان -->
-                                    <td>
-                                        <i class="fas fa-map-marker-alt text-muted me-1"></i>
-                                        <?php echo htmlspecialchars($job['location'] ?? 'Not Specified'); ?>
+                                    <td class="fw-bold text-success">
+                                        <?php 
+                                            // عرض المرتب سواء كان نص أو رقم بدون استخدام number_format نهائياً لتفادي الخطأ
+                                            echo !empty($job['salary']) ? htmlspecialchars($job['salary']) : 'N/A';
+                                        ?>
                                     </td>
 
-                                    <!-- الحالة (Active / Closed) -->
                                     <td>
-                                        <?php if (isset($job['status']) && strtolower($job['status']) === 'active'): ?>
-                                            <span class="badge bg-success-subtle text-success border border-success px-3 py-2 rounded-pill">Active</span>
+                                        <a href="applicants.php?job_id=<?php echo $job['id']; ?>" class="badge bg-secondary text-decoration-none">
+                                            <i class="fas fa-users me-1"></i> <?php echo $job['applicants_count']; ?>
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        <?php if (($job['status'] ?? 'open') === 'open'): ?>
+                                            <span class="badge bg-success">Open</span>
                                         <?php else: ?>
-                                            <span class="badge bg-secondary-subtle text-secondary border border-secondary px-3 py-2 rounded-pill">Closed</span>
+                                            <span class="badge bg-danger">Closed</span>
                                         <?php endif; ?>
                                     </td>
 
-                                    <!-- الإجراءات (Actions) -->
                                     <td class="text-end pe-4">
-                                        <!-- زر تغيير الحالة (Toggle) -->
-                                        <a href="my_jobs.php?action=toggle&id=<?php echo $job['id']; ?>" 
+                                        <a href="my_jobs.php?action=toggle_status&job_id=<?php echo $job['id']; ?>&status=<?php echo $job['status'] ?? 'open'; ?>" 
                                            class="btn btn-sm btn-outline-secondary me-1" 
-                                           title="Toggle Status (Active/Closed)">
-                                            <i class="fas fa-sync-alt"></i>
+                                           title="Toggle Status">
+                                            <i class="fas <?php echo ($job['status'] ?? 'open') === 'open' ? 'fa-eye-slash' : 'fa-eye'; ?>"></i>
                                         </a>
 
-                                        <!-- زر تعديل الوظيفة -->
-                                        <a href="add_jops.php?edit_id=<?php echo $job['id']; ?>" 
-                                           class="btn btn-sm btn-outline-primary me-1" 
-                                           title="Edit Job">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-
-                                        <!-- زر مسح الوظيفة -->
-                                        <a href="my_jobs.php?action=delete&id=<?php echo $job['id']; ?>" 
+                                        <a href="my_jobs.php?action=delete&job_id=<?php echo $job['id']; ?>" 
                                            class="btn btn-sm btn-outline-danger" 
-                                           title="Delete Job"
-                                           onclick="return confirm('Are you sure you want to delete this job?');">
+                                           onclick="return confirm('Are you sure you want to delete this job?');" 
+                                           title="Delete Job">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php else: ?>
-                <!-- في حالة عدم وجود وظائف -->
-                <div class="text-center py-5">
-                    <i class="fas fa-briefcase fa-3x text-muted mb-3 opacity-50"></i>
-                    <h5 class="text-muted fw-normal">No jobs found!</h5>
-                    <p class="text-muted small">You haven't posted any jobs yet, or no jobs match the current filter.</p>
-                    <a href="add_jops.php" class="btn btn-primary btn-sm mt-2">Post a Job Now</a>
-                </div>
-            <?php endif; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="6" class="text-center py-4">
+                                    <i class="fas fa-folder-open fa-2x text-muted mb-2 d-block"></i>
+                                    <span>No jobs found. Click <strong>"Add New Job"</strong> to post your first job!</span>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
 </div>
 
 <?php
-// --- 4. استدعاء الـ Footer من فولدر includes ---
 if (file_exists("../includes/footer.php")) {
     include_once "../includes/footer.php";
 } elseif (file_exists("../footer.php")) {
