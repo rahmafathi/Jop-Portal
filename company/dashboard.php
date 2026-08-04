@@ -1,14 +1,17 @@
 <?php
-include_once '../includes/nav.php';
+
 
 // 1. بدء الـ Session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+
 // استدعاء ملفات الاتصال والدوال
 require_once "../includes/functions.php"; 
 require_once "../includes/db.php";
+include_once '../includes/nav.php';
+include_once "../includes/header.php";
 
 // إسناد قيمة user_id المسجل أو استخدام رقم مستخدم من نوع company (مثل المستخدم رقم 1 لديكِ)
 $user_id = intval($_SESSION['user_id'] ?? 1);
@@ -24,7 +27,7 @@ if ($comp_query && mysqli_num_rows($comp_query) > 0) {
 }
 
 // 2. استدعاء الـ Header
-include_once "../includes/header.php";
+
 ?>
 
 <div class="container my-5" dir="ltr">

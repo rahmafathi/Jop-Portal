@@ -132,6 +132,15 @@ CREATE TABLE `users` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+
+ALTER TABLE `users` 
+ADD COLUMN `address` TEXT NULL AFTER `phone`,
+ADD COLUMN `skills` TEXT NULL AFTER `address`,
+ADD COLUMN `experience` TEXT NULL AFTER `skills`,
+ADD COLUMN `education` TEXT NULL AFTER `experience`,
+ADD COLUMN `profile_image` VARCHAR(255) NULL AFTER `education`,
+ADD COLUMN `cv_file` VARCHAR(255) NULL AFTER `profile_image`;
 --
 -- Dumping data for table `users`
 --
@@ -140,6 +149,9 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `role`, `create
 (1, 'kholoud emam', 'kholoudemam918@gmail.com', '$2y$10$QW0Ml53QcV2hx.18FZWMCOcsdz0QTfdgiNbEXpYqW34ul1ILr23Ha', '01011111111', 'company', '2026-08-02 01:08:45'),
 (3, 'jjjjjj', 'k@gmail.com', '$2y$10$2VdE.ljNdmTEVNcZEdQNRe.tjWKScLBcZKdD/6.H0nwXSbTeKlr/S', '111111111', 'job_seeker', '2026-08-02 13:57:56'),
 (4, 'admin', 'Admin@gmail.com', '$2y$10$Buyht6iSHdnAARNwxVnEfe9U30kE2gsE3EEBI5dD7Ih/PwlBZWkVG', '111111', 'admin', '2026-08-02 14:14:10');
+
+
+
 
 --
 -- Indexes for dumped tables
@@ -237,6 +249,28 @@ ALTER TABLE `companies`
 ALTER TABLE `jobs`
   ADD CONSTRAINT `jobs_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `jobs_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON UPDATE CASCADE;
+--
+-- Table structure for table `saved_jobs`
+--
+
+CREATE TABLE `saved_jobs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `seeker_id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `saved_at` timestamp NOT NULL DEFAULT current_timestamp(),
+
+  PRIMARY KEY (`id`),
+  KEY `seeker_id` (`seeker_id`),
+  KEY `job_id` (`job_id`),
+
+  CONSTRAINT `saved_jobs_ibfk_1`
+    FOREIGN KEY (`seeker_id`) REFERENCES `users` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `saved_jobs_ibfk_2`
+    FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
