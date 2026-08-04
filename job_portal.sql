@@ -132,6 +132,15 @@ CREATE TABLE `users` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+
+ALTER TABLE `users` 
+ADD COLUMN `address` TEXT NULL AFTER `phone`,
+ADD COLUMN `skills` TEXT NULL AFTER `address`,
+ADD COLUMN `experience` TEXT NULL AFTER `skills`,
+ADD COLUMN `education` TEXT NULL AFTER `experience`,
+ADD COLUMN `profile_image` VARCHAR(255) NULL AFTER `education`,
+ADD COLUMN `cv_file` VARCHAR(255) NULL AFTER `profile_image`;
 --
 -- Dumping data for table `users`
 --
@@ -140,6 +149,9 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `role`, `create
 (1, 'kholoud emam', 'kholoudemam918@gmail.com', '$2y$10$QW0Ml53QcV2hx.18FZWMCOcsdz0QTfdgiNbEXpYqW34ul1ILr23Ha', '01011111111', 'company', '2026-08-02 01:08:45'),
 (3, 'jjjjjj', 'k@gmail.com', '$2y$10$2VdE.ljNdmTEVNcZEdQNRe.tjWKScLBcZKdD/6.H0nwXSbTeKlr/S', '111111111', 'job_seeker', '2026-08-02 13:57:56'),
 (4, 'admin', 'Admin@gmail.com', '$2y$10$Buyht6iSHdnAARNwxVnEfe9U30kE2gsE3EEBI5dD7Ih/PwlBZWkVG', '111111', 'admin', '2026-08-02 14:14:10');
+
+
+
 
 --
 -- Indexes for dumped tables
