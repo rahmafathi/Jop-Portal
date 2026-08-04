@@ -42,38 +42,57 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 <?php if (isset($_SESSION['user_id'])): ?>
 
+                    <?php
+
+                    // تحديد رابط الـ Profile والـ Dashboard حسب نوع المستخدم
+                    if (
+                        isset($_SESSION['role']) &&
+                        $_SESSION['role'] === 'company'
+                    ) {
+
+                        $profileLink = "/Jop-Portal/company/profile.php";
+                        $dashboardLink = "/Jop-Portal/company/dashboard.php";
+
+                    } elseif (
+                        isset($_SESSION['role']) &&
+                        $_SESSION['role'] === 'job_seeker'
+                    ) {
+
+                        $profileLink = "/Jop-Portal/seeker/profile.php";
+                        $dashboardLink = "/Jop-Portal/seeker/dashboard.php";
+
+                    } elseif (
+                        isset($_SESSION['role']) &&
+                        $_SESSION['role'] === 'admin'
+                    ) {
+
+                        $profileLink = "/Jop-Portal/admin/profile.php";
+                        $dashboardLink = "/Jop-Portal/admin/dashboard.php";
+
+                    } else {
+
+                        $profileLink = "/Jop-Portal/index.php";
+                        $dashboardLink = "/Jop-Portal/index.php";
+
+                    }
+
+                    ?>
+
+
+                    <!-- Dashboard -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= $dashboardLink; ?>">
+                            <i class="bi bi-speedometer2 me-1"></i>
+                            Dashboard
+                        </a>
+                    </li>
+
+
                     <!-- Profile -->
                     <li class="nav-item">
-                        <?php
-
-                        if (
-                            isset($_SESSION['role']) &&
-                            $_SESSION['role'] === 'company'
-                        ) {
-
-                            $profileLink = "/Jop-Portal/company/profile.php";
-
-                        } elseif (
-                            isset($_SESSION['role']) &&
-                            $_SESSION['role'] === 'job_seeker'
-                        ) {
-
-                            $profileLink = "/Jop-Portal/seeker/profile.php";
-
-                        } else {
-
-                            $profileLink = "/Jop-Portal/index.php";
-
-                        }
-
-                        ?>
-
                         <a class="nav-link" href="<?= $profileLink; ?>">
-
                             <i class="bi bi-person-circle me-1"></i>
-
                             Profile
-
                         </a>
                     </li>
 
@@ -81,11 +100,8 @@ if (session_status() === PHP_SESSION_NONE) {
                     <!-- Logout -->
                     <li class="nav-item">
                         <a class="nav-link" href="/Jop-Portal/logout.php">
-
                             <i class="bi bi-box-arrow-right me-1"></i>
-
                             Logout
-
                         </a>
                     </li>
 
@@ -96,11 +112,8 @@ if (session_status() === PHP_SESSION_NONE) {
                     <!-- Login -->
                     <li class="nav-item">
                         <a class="nav-link" href="/Jop-Portal/login.php">
-
                             <i class="bi bi-box-arrow-in-right me-1"></i>
-
                             Login
-
                         </a>
                     </li>
 
@@ -108,11 +121,8 @@ if (session_status() === PHP_SESSION_NONE) {
                     <!-- Register -->
                     <li class="nav-item">
                         <a class="nav-link" href="/Jop-Portal/register.php">
-
                             <i class="bi bi-person-plus-fill me-1"></i>
-
                             Register
-
                         </a>
                     </li>
 
