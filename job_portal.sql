@@ -237,6 +237,28 @@ ALTER TABLE `companies`
 ALTER TABLE `jobs`
   ADD CONSTRAINT `jobs_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `jobs_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON UPDATE CASCADE;
+--
+-- Table structure for table `saved_jobs`
+--
+
+CREATE TABLE `saved_jobs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `seeker_id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `saved_at` timestamp NOT NULL DEFAULT current_timestamp(),
+
+  PRIMARY KEY (`id`),
+  KEY `seeker_id` (`seeker_id`),
+  KEY `job_id` (`job_id`),
+
+  CONSTRAINT `saved_jobs_ibfk_1`
+    FOREIGN KEY (`seeker_id`) REFERENCES `users` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `saved_jobs_ibfk_2`
+    FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
