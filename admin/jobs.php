@@ -363,14 +363,7 @@ View
 
 </a>
 
-<a href="#"
-class="btn btn-warning btn-sm">
 
-<i class="fas fa-edit"></i>
-
-Edit
-
-</a>
 
 <a href="jobs.php?delete=<?= $job['id'];?>"
 class="btn btn-danger btn-sm"

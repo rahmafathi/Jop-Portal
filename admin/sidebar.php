@@ -47,8 +47,10 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             Categories
         </a>
 
-        
-
+       <a href="application.php" class="<?= $currentPage == 'application.php' ? 'active' : '' ?>">
+    <i class="fa-solid fa-file-lines"></i>
+    Applications
+</a>
         
         <div class="sidebar-title px-3 mt-4 mb-2">
             SETTINGS
