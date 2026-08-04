@@ -2,7 +2,10 @@
 
 session_start();
 
+?>
+<?php
 include_once "../includes/header.php";
+include_once '../includes/nav.php';
 ?>
 <link rel="stylesheet" href="../assets/css/profilecompany.css">
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -215,7 +218,7 @@ $company = mysqli_fetch_assoc($result);
 
                     </div>
 
-                    <div class="text-center mt-4">
+                    <!-- <div class="text-center mt-4">
 
                         <a href="edit_profile.php" class="btn btn-primary edit-btn">
 
@@ -225,7 +228,7 @@ $company = mysqli_fetch_assoc($result);
 
                         </a>
 
-                    </div>
+                    </div> -->
 
                 </div>
 
@@ -252,3 +255,4 @@ $company = mysqli_fetch_assoc($result);
 include_once "../includes/footer.php";
 
 ?>
+

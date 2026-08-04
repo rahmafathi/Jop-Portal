@@ -52,12 +52,10 @@
     </div>
 </footer>
 
-<<<<<<< HEAD
 
 
 
-=======
->>>>>>> 5cd5b3393caac3fbee9071936658e148114c5bf8
+
 <!-- Bootstrap Bundle JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
