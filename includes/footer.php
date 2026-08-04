@@ -8,7 +8,7 @@
                 <h3 class="text-primary fw-bold">Job Portal</h3>
 
                 <p class="text-light">
-                    Discover thousands of job opportunities with top companies.Build your career with Job Portal.
+                    Discover thousands of job opportunities with top companies. Build your career with Job Portal.
                 </p>
 
                 <div class="mt-4">
@@ -21,13 +21,12 @@
 
             <!-- Quick Links -->
             <div class="col-md-4 mb-4">
-                <h5>Quick Links</h5>
-
+                <h5 class="text-white mb-3">Quick Links</h5>
                 <ul class="list-unstyled">
-                    <li><a href="index.php" class="footer-link">Home</a></li>
-                    <li><a href="jobs.php" class="footer-link">Jobs</a></li>
-                    <li><a href="login.php" class="footer-link">Login</a></li>
-                    <li><a href="register.php" class="footer-link">Register</a></li>
+                    <li class="mb-2"><a href="<?php echo (file_exists('index.php') ? 'index.php' : '../index.php'); ?>" class="footer-link text-decoration-none">Home</a></li>
+                    <li class="mb-2"><a href="<?php echo (file_exists('jobs.php') ? 'jobs.php' : '../jobs.php'); ?>" class="footer-link text-decoration-none">Jobs</a></li>
+                    <li class="mb-2"><a href="<?php echo (file_exists('login.php') ? 'login.php' : '../login.php'); ?>" class="footer-link text-decoration-none">Login</a></li>
+                    <li><a href="<?php echo (file_exists('register.php') ? 'register.php' : '../register.php'); ?>" class="footer-link text-decoration-none">Register</a></li>
                 </ul>
             </div>
 
@@ -53,9 +52,12 @@
     </div>
 </footer>
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 5cd5b3393caac3fbee9071936658e148114c5bf8
 <!-- Bootstrap Bundle JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

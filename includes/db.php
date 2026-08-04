@@ -23,9 +23,9 @@ function insert($conn, $post, $table)
 
     if (mysqli_query($conn, "INSERT INTO $table ($columns_string) VALUES ($values_string)")) {
         return true;
-    } else {
-        return false;
     }
+
+    return false;
 }
 
 // ===================== SELECT ALL =====================
@@ -66,6 +66,7 @@ function selectOne($conn, $table, $id)
 function login($conn, $email, $password)
 {
     $email = mysqli_real_escape_string($conn, $email);
+<<<<<<< HEAD
 
     $sql = "SELECT * FROM users WHERE email = '$email'";
     $result = mysqli_query($conn, $sql);
@@ -78,6 +79,18 @@ function login($conn, $email, $password)
             return $user;
         }
 
+=======
+
+    $result = mysqli_query($conn, "SELECT * FROM users WHERE email = '$email'");
+
+    if ($result && mysqli_num_rows($result) > 0) {
+
+        $user = mysqli_fetch_assoc($result);
+
+        if (password_verify($password, $user['password'])) {
+            return $user;
+        }
+>>>>>>> 5cd5b3393caac3fbee9071936658e148114c5bf8
     }
 
     return [];

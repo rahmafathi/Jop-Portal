@@ -24,16 +24,15 @@ function redirect($url)
 function checkLogin()
 {
     if (!isset($_SESSION['user_id'])) {
-        redirect("/nti_training/gym_project/login.php");
+        redirect("/Jop-Portal/login.php"); // تعديل المسار هنا
     }
 }
 
-// حماية صفحات الأدمن
 function checkAdmin()
 {
     checkLogin();
     if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-        redirect("/nti_training/gym_project/index.php");
+        redirect("/Jop-Portal/index.php"); // وتعديل المسار هنا كمان
     }
 }
 

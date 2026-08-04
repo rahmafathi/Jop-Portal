@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 03, 2026 at 01:58 AM
+-- Generation Time: Aug 03, 2026 at 05:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -80,6 +80,13 @@ CREATE TABLE `companies` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `companies`
+--
+
+INSERT INTO `companies` (`id`, `user_id`, `company_name`, `description`, `website`, `location`, `logo`, `created_at`) VALUES
+(1, 1, 'Google Egypt', 'Leading technology company', 'https://google.com', 'Cairo', 'google.png', '2026-08-03 01:05:37');
+
 -- --------------------------------------------------------
 
 --
@@ -101,6 +108,13 @@ CREATE TABLE `jobs` (
   `status` enum('open','closed') NOT NULL DEFAULT 'open',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jobs`
+--
+
+INSERT INTO `jobs` (`id`, `company_id`, `category_id`, `title`, `description`, `requirements`, `salary`, `location`, `job_type`, `experience`, `deadline`, `status`, `created_at`) VALUES
+(1, 1, 1, 'Frontend Developer', 'Build responsive websites using HTML CSS Bootstrap and JavaScript.', 'HTML CSS Bootstrap JavaScript', 15000.00, 'Cairo', 'full time', '2 years', '2026-09-30', 'open', '2026-08-03 01:08:48');
 
 -- --------------------------------------------------------
 
@@ -186,13 +200,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
