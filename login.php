@@ -18,7 +18,7 @@ if (isset($_SESSION['user_id'])) {
 
         redirect('company/dashboard.php');
 
-    } elseif ($_SESSION['role'] == 'seeker') {
+    } elseif ($_SESSION['role'] == 'job_seeker') {
 
         redirect('seeker/dashboard.php');
 
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 redirect('company/dashboard.php');
 
-            } elseif ($user['role'] == 'seeker') {
+            } elseif ($user['role'] == 'job_seeker') {
 
                 redirect('seeker/dashboard.php');
 
