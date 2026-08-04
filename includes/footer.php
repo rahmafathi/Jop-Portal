@@ -53,7 +53,7 @@
     </div>
 </footer>
 
-</div>
+
 
 
 <!-- Bootstrap Bundle JS -->

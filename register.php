@@ -37,15 +37,45 @@ if (isset($_POST['register'])) {
             $insert = mysqli_query($conn, "INSERT INTO users(name,email,password,phone,role)
             VALUES('$name','$email','$hashedPassword','$phone','$role')");
 
+            // if ($insert) {
+
+            //     $message = "Registration Successful";
+
+            // } else {
+
+            //     $message = "Registration Failed";
+
+            // }
+
+
             if ($insert) {
 
-                $message = "Registration Successful";
+    // الحصول على رقم المستخدم الجديد
+    $user_id = mysqli_insert_id($conn);
 
-            } else {
+    // إذا كان المستخدم شركة، أضف له سجل في جدول companies
+    if ($role == "company") {
 
-                $message = "Registration Failed";
+        $insertCompany = mysqli_query($conn, "
+            INSERT INTO companies
+            (user_id, company_name, description, website, location, logo)
+            VALUES
+            ('$user_id', '$name', '', '', '', '')
+        ");
 
-            }
+    }
+
+    // رسالة نجاح
+    setMessage("success", "Registration Successful. Please Login.");
+
+    // تحويل إلى صفحة تسجيل الدخول
+    redirect("login.php");
+
+} else {
+
+    setMessage("danger", "Registration Failed.");
+
+}
 
         }
 

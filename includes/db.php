@@ -53,17 +53,35 @@ function selectOne($conn, $table, $id)
 }
 
 // ===================== LOGIN =====================
+// function login($conn, $email, $password)
+// {
+//     $row = mysqli_query($conn, "SELECT * FROM users WHERE email = '$email' AND password = '$password'");
+
+//     if ($row && mysqli_num_rows($row) > 0) {
+//         return mysqli_fetch_assoc($row);
+//     }
+
+//     return [];
+// }
 function login($conn, $email, $password)
 {
-    $row = mysqli_query($conn, "SELECT * FROM users WHERE email = '$email' AND password = '$password'");
+    $email = mysqli_real_escape_string($conn, $email);
 
-    if ($row && mysqli_num_rows($row) > 0) {
-        return mysqli_fetch_assoc($row);
+    $sql = "SELECT * FROM users WHERE email = '$email'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+
+        $user = mysqli_fetch_assoc($result);
+
+        if (password_verify($password, $user['password'])) {
+            return $user;
+        }
+
     }
 
     return [];
 }
-
 // ===================== UPDATE =====================
 function update($conn, $post, $table, $id)
 {
