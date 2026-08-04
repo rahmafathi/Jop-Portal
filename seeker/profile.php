@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($stmt_update->execute()) {
                 $success_msg = "Profile updated successfully!";
-                // إعادة جلب البيانات فوراً لضمان تحديث القيم المكتوبة
+                // إعادة جلب البيانات فوراً
                 $stmt->execute();
                 $user = $stmt->get_result()->fetch_assoc() ?? [];
             } else {
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// تجهيز القيم للعرض في الحقول
+// تجهيز القيم للعرض
 $display_name       = $user['name'] ?? '';
 $display_email      = $user['email'] ?? '';
 $display_phone      = $user['phone'] ?? '';
@@ -114,6 +114,15 @@ $display_experience = $user['experience'] ?? '';
 $display_education  = $user['education'] ?? '';
 $display_image      = $user['profile_image'] ?? '';
 $display_cv         = $user['cv_file'] ?? '';
+
+// مسار الصورة النسبي بـ ../ للرجوع خطوة من فولدر seeker إلى الجذر
+$img_relative_path = '../uploads/profiles/' . $display_image;
+
+if (!empty($display_image) && file_exists(__DIR__ . '/../uploads/profiles/' . $display_image)) {
+    $display_img_src = $img_relative_path . '?v=' . time();
+} else {
+    $display_img_src = 'https://via.placeholder.com/130';
+}
 
 include_once "../includes/header.php";
 include_once "../includes/nav.php";
@@ -138,8 +147,18 @@ include_once "../includes/nav.php";
         <?php endif; ?>
 
         <form action="profile.php" method="POST" enctype="multipart/form-data">
+            
+            <!-- الدائرة والصورة فوق -->
+            <div class="text-center mb-4">
+                <img src="<?= $display_img_src ?>" 
+                     alt="Profile Picture" class="rounded-circle border border-primary mb-3 shadow-sm" style="width: 130px; height: 130px; object-fit: cover;">
+                <div>
+                    <label for="profile_image" class="form-label fw-bold">Upload / Change Profile Picture</label>
+                    <input type="file" class="form-control w-75 mx-auto" id="profile_image" name="profile_image" accept="image/*">
+                </div>
+            </div>
+
             <div class="row g-3">
-                
                 <!-- Full Name -->
                 <div class="col-md-6">
                     <label for="full_name" class="form-label fw-bold">Full Name</label>
@@ -188,24 +207,13 @@ include_once "../includes/nav.php";
                     <input type="password" class="form-control" id="new_password" name="new_password" placeholder="******">
                 </div>
 
-                <!-- Upload Profile Picture -->
-                <div class="col-md-6">
-                    <label for="profile_image" class="form-label fw-bold">Profile Picture</label>
-                    <input type="file" class="form-control" id="profile_image" name="profile_image" accept="image/*">
-                    <?php if (!empty($display_image)): ?>
-                        <div class="form-text mt-1 text-success">
-                            Current Image: <?= htmlspecialchars($display_image) ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-
                 <!-- Upload CV / Resume File -->
-                <div class="col-md-6">
+                <div class="col-12">
                     <label for="cv_file" class="form-label fw-bold">Upload Resume / CV (PDF only)</label>
                     <input type="file" class="form-control" id="cv_file" name="cv_file" accept=".pdf">
                     <?php if (!empty($display_cv)): ?>
                         <div class="form-text mt-1">
-                            <a href="../uploads/cvs/<?= htmlspecialchars($display_cv) ?>" target="_blank" class="text-decoration-none">View Current CV</a>
+                            Current CV: <a href="../uploads/cvs/<?= htmlspecialchars($display_cv) ?>" target="_blank" class="text-decoration-none">View CV</a>
                         </div>
                     <?php endif; ?>
                 </div>
