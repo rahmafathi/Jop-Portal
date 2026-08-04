@@ -2,7 +2,7 @@
 session_start();
 
 // 1. Session Check (الحماية الأساسية)
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'seeker') {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'job_seeker') {
     header("Location: ../login.php");
     exit();
 }
