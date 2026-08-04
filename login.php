@@ -48,6 +48,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['role'] = $user['role'];
             $_SESSION['name'] = $user['name'];
+            $user_id = $user['id'];
+
+$sql = "SELECT * FROM companies WHERE user_id = '$user_id'";
+$result = mysqli_query($conn, $sql);
+
+if (mysqli_num_rows($result) > 0) {
+    $company = mysqli_fetch_assoc($result);
+
+    $_SESSION['company_id'] = $company['id'];
+
+    echo "Company ID = " . $_SESSION['company_id'];
+    exit;
+} else {
+    echo "No company found for user_id = " . $user_id;
+    exit;
+}
 
             if ($user['role'] == 'admin') {
 

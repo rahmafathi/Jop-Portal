@@ -85,8 +85,7 @@ include_once "includes/db.php";
 
                 <div class="hero-image">
 
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-class="img-fluid">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="img-fluid">
 
                 </div>
 
@@ -100,7 +99,5 @@ class="img-fluid">
 
 
 <?php
-
 include_once "includes/footer.php";
-
 ?>

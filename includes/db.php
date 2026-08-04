@@ -64,6 +64,10 @@ function login($conn, $email, $password)
         $user = mysqli_fetch_assoc($result);
 
         if (password_verify($password, $user['password'])) {
+            echo "<pre>";
+print_r($user);
+echo "</pre>";
+exit;
             return $user;
         }
     }

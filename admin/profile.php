@@ -1,8 +1,6 @@
 <?php
 // admin/admin/profile.php
 include '../includes/db.php';
-// admin/profile.php
-include '../includes/db.php';
 
 // تعريف الـ Base URL
 $base_url = "http://localhost/Jop-Portal/";

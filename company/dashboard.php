@@ -17,6 +17,8 @@ $comp_query = mysqli_query($conn, "SELECT id FROM companies WHERE user_id = $use
 if ($comp_query && mysqli_num_rows($comp_query) > 0) {
     $company_data = mysqli_fetch_assoc($comp_query);
     $company_id = intval($company_data['id']);
+        $_SESSION['company_id'] = $company_id;
+
 }
 
 // 2. استدعاء الـ Header
@@ -35,7 +37,7 @@ include_once "../includes/header.php";
     <!-- Header Section + Quick Action Button -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-dark fw-bold mb-0">Company Dashboard</h2>
-        <a href="add_job.php" class="btn btn-primary fw-bold shadow-sm">
+        <a href="add_jobs.php" class="btn btn-primary fw-bold shadow-sm">
             <i class="fas fa-plus-circle me-1"></i> Post New Job
         </a>
     </div>
