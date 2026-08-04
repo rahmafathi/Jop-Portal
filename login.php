@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 redirect('company/dashboard.php');
 
-            } elseif ($user['role'] == 'seeker') {
+            } elseif ($user['role'] == 'job_seeker') {
 
                 redirect('seeker/dashboard.php');
 
