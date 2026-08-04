@@ -23,9 +23,9 @@ function insert($conn, $post, $table)
 
     if (mysqli_query($conn, "INSERT INTO $table ($columns_string) VALUES ($values_string)")) {
         return true;
-    } else {
-        return false;
     }
+
+    return false;
 }
 
 // ===================== SELECT ALL =====================
@@ -64,10 +64,6 @@ function login($conn, $email, $password)
         $user = mysqli_fetch_assoc($result);
 
         if (password_verify($password, $user['password'])) {
-            echo "<pre>";
-print_r($user);
-echo "</pre>";
-exit;
             return $user;
         }
     }

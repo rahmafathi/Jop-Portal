@@ -8,9 +8,7 @@ include_once '../includes/functions.php';
 include_once '../includes/header.php';
 include_once '../includes/nav.php';
 
-
 $id = $_GET['id'] ?? 0;
-
 
 // جلب بيانات الوظيفة
 $query = "SELECT * FROM jobs WHERE id='$id'";
@@ -20,9 +18,9 @@ $job = mysqli_fetch_assoc($result);
 
 if (!$job) {
     echo "<div class='alert alert-danger'>Job not found</div>";
+    include_once '../includes/footer.php';
     exit;
 }
-
 
 // تحديث البيانات
 if (isset($_POST['update'])) {
@@ -32,7 +30,6 @@ if (isset($_POST['update'])) {
     $salary = mysqli_real_escape_string($conn, $_POST['salary']);
     $status = mysqli_real_escape_string($conn, $_POST['status']);
 
-
     $update = "UPDATE jobs SET
                 title='$title',
                 job_type='$job_type',
@@ -40,22 +37,19 @@ if (isset($_POST['update'])) {
                 status='$status'
                 WHERE id='$id'";
 
-
     if (mysqli_query($conn, $update)) {
 
         $_SESSION['success'] = "Job updated successfully";
-
         header("Location: my_jobs.php");
         exit;
 
     } else {
-        echo "Error: " . mysqli_error($conn);
+
+        echo "<div class='alert alert-danger'>" . mysqli_error($conn) . "</div>";
+
     }
-
 }
-
 ?>
-
 
 <div class="container my-5">
 
@@ -63,20 +57,16 @@ if (isset($_POST['update'])) {
 
         <h2 class="mb-4">Edit Job</h2>
 
-
         <form method="POST">
-
 
             <div class="mb-3">
                 <label class="form-label">Job Title</label>
-
                 <input type="text"
                        name="title"
                        class="form-control"
-                       value="<?php echo htmlspecialchars($job['title']); ?>">
+                       value="<?php echo htmlspecialchars($job['title']); ?>"
+                       required>
             </div>
-
-
 
             <div class="mb-3">
                 <label class="form-label">Job Type</label>
@@ -84,34 +74,26 @@ if (isset($_POST['update'])) {
                 <select name="job_type" class="form-control">
 
                     <option value="Full Time"
-                    <?php if($job['job_type']=="Full Time") echo "selected"; ?>>
-                    Full Time
+                        <?php if($job['job_type']=="Full Time") echo "selected"; ?>>
+                        Full Time
                     </option>
 
-
                     <option value="Part Time"
-                    <?php if($job['job_type']=="Part Time") echo "selected"; ?>>
-                    Part Time
+                        <?php if($job['job_type']=="Part Time") echo "selected"; ?>>
+                        Part Time
                     </option>
 
                 </select>
-
             </div>
 
-
-
             <div class="mb-3">
-
                 <label class="form-label">Salary</label>
 
                 <input type="number"
                        name="salary"
                        class="form-control"
                        value="<?php echo htmlspecialchars($job['salary']); ?>">
-
             </div>
-
-
 
             <div class="mb-3">
 
@@ -120,38 +102,34 @@ if (isset($_POST['update'])) {
                 <select name="status" class="form-control">
 
                     <option value="Open"
-                    <?php if($job['status']=="Open") echo "selected"; ?>>
-                    Open
+                        <?php if($job['status']=="Open") echo "selected"; ?>>
+                        Open
                     </option>
 
-
                     <option value="Closed"
-                    <?php if($job['status']=="Closed") echo "selected"; ?>>
-                    Closed
+                        <?php if($job['status']=="Closed") echo "selected"; ?>>
+                        Closed
                     </option>
 
                 </select>
 
             </div>
 
-
-
-            <button type="submit" name="update" class="btn btn-primary">
+            <button type="submit"
+                    name="update"
+                    class="btn btn-primary">
                 Update Job
             </button>
 
-
-            <a href="jobs.php" class="btn btn-secondary">
+            <a href="my_jobs.php"
+               class="btn btn-secondary">
                 Cancel
             </a>
 
-
         </form>
-
 
     </div>
 
 </div>
-
 
 <?php include_once '../includes/footer.php'; ?>

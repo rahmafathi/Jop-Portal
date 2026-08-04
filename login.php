@@ -18,7 +18,7 @@ if (isset($_SESSION['user_id'])) {
 
         redirect('company/dashboard.php');
 
-    } elseif ($_SESSION['role'] == 'job_seeker') {
+    } elseif ($_SESSION['role'] == 'seeker') {
 
         redirect('seeker/dashboard.php');
 
@@ -48,40 +48,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['role'] = $user['role'];
             $_SESSION['name'] = $user['name'];
-            $user_id = $user['id'];
 
-$sql = "SELECT * FROM companies WHERE user_id = '$user_id'";
-$result = mysqli_query($conn, $sql);
+            // إذا كان Company هنجيب company_id
+            if ($user['role'] == 'company') {
 
-if (mysqli_num_rows($result) > 0) {
-    $company = mysqli_fetch_assoc($result);
+                $user_id = $user['id'];
 
-    $_SESSION['company_id'] = $company['id'];
+                $sql = "SELECT * FROM companies WHERE user_id = '$user_id'";
+                $result = mysqli_query($conn, $sql);
 
-    echo "Company ID = " . $_SESSION['company_id'];
-    exit;
-} else {
-    echo "No company found for user_id = " . $user_id;
-    exit;
-}
+                if ($result && mysqli_num_rows($result) > 0) {
+
+                    $company = mysqli_fetch_assoc($result);
+                    $_SESSION['company_id'] = $company['id'];
+
+                }
+
+            }
 
             if ($user['role'] == 'admin') {
 
-    redirect('admin/dashboard.php');
+                redirect('admin/dashboard.php');
 
-} elseif ($user['role'] == 'company') {
+            } elseif ($user['role'] == 'company') {
 
-    redirect('company/dashboard.php');
+                redirect('company/dashboard.php');
 
-} elseif ($user['role'] == 'job_seeker') {
+            } elseif ($user['role'] == 'seeker') {
 
-    redirect('seeker/dashboard.php');
+                redirect('seeker/dashboard.php');
 
-} else {
+            } else {
 
-    redirect('index.php');
+                redirect('index.php');
 
-}
+            }
 
         } else {
 
@@ -94,44 +95,42 @@ if (mysqli_num_rows($result) > 0) {
 ?>
 
 <div class="login-page">
-    <div >
+    <div>
 
         <?php displayMessage(); ?>
 
-        <div class="login-contaier ">
+        <div class="login-contaier">
 
-            <div class="login-header ">
-                <h3 class=""> Login</h3>
-                <p> Welcome back to Jop Portal</p>
+            <div class="login-header">
+                <h3>Login</h3>
+                <p>Welcome back to Jop Portal</p>
             </div>
 
             <div class="form-part">
                 <form action="login.php" method="POST">
 
-                    <div class="form-in-part ">
+                    <div class="form-in-part">
                         <label for="email">Email</label>
-                        <input type="email"  name="email" id="email" placeholder="name@example.com" required>
+                        <input type="email" name="email" id="email" placeholder="name@example.com" required>
                     </div>
 
-                    <div class="form-in-part ">
+                    <div class="form-in-part">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password"  name="password" id="password" placeholder="****" required>
+                        <input type="password" name="password" id="password" placeholder="****" required>
                     </div>
 
-                    
-                        <button type="submit" class="login-btn">
-                            Login
-                        </button>
-                    
+                    <button type="submit" class="login-btn">
+                        Login
+                    </button>
 
                 </form>
             </div>
 
-            <div class="login-card-footer ">
+            <div class="login-card-footer">
                 <p>
-                     Don't have an account?
-                    <a href="register.php" >
-                         Create New Account
+                    Don't have an account?
+                    <a href="register.php">
+                        Create New Account
                     </a>
                 </p>
             </div>

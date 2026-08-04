@@ -1,4 +1,6 @@
 <?php
+include_once '../includes/nav.php';
+
 // 1. بدء الـ Session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

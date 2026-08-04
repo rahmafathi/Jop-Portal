@@ -8,6 +8,7 @@ include_once '../includes/functions.php';
 include_once '../includes/header.php';
 include_once '../includes/nav.php';
 
+<<<<<<< HEAD
 
 $job_id = isset($_GET['job_id']) ? intval($_GET['job_id']) : 0;
 
@@ -43,6 +44,30 @@ $app_query = "
 
 $app_res = mysqli_query($conn, $app_query);
 
+=======
+if (!isset($_GET['job_id']) || empty($_GET['job_id'])) {
+    header("Location: my_jobs.php");
+    exit();
+}
+
+$job_id = intval($_GET['job_id']);
+$company_id = $_SESSION['company_id'] ?? 1;
+
+// التأكد من أن الوظيفة تخص هذه الشركة
+$job_check = mysqli_query($conn, "SELECT * FROM jobs WHERE id = $job_id AND company_id = '$company_id'");
+if (!$job_check || mysqli_num_rows($job_check) === 0) {
+    echo "<div class='container my-5'><div class='alert alert-danger'>Job not found or unauthorized.</div></div>";
+    include_once '../includes/footer.php';
+    exit();
+}
+$job = mysqli_fetch_assoc($job_check);
+
+// جلب المتقدمين لهذه الوظيفة مع بيانات المستخدمين
+$query = "SELECT applications.*, users.name, users.email FROM applications 
+          JOIN users ON applications.user_id = users.id 
+          WHERE applications.job_id = $job_id";
+$result = mysqli_query($conn, $query);
+>>>>>>> b26d7cfd94258eb8d57bc8686cd819d214ceb9fb
 ?>
 
 
@@ -51,6 +76,7 @@ $app_res = mysqli_query($conn, $app_query);
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
+<<<<<<< HEAD
 
             <h2 class="page-title mb-1">
                 Applicants for:
@@ -63,6 +89,10 @@ $app_res = mysqli_query($conn, $app_query);
                 Review candidates who applied for this position.
             </p>
 
+=======
+            <h2 class="page-title mb-1">Applicants for: <?php echo htmlspecialchars($job['title']); ?></h2>
+            <p class="text-muted">Review candidates who applied for this position.</p>
+>>>>>>> b26d7cfd94258eb8d57bc8686cd819d214ceb9fb
         </div>
 
 
@@ -85,6 +115,7 @@ $app_res = mysqli_query($conn, $app_query);
                 <thead class="table-light">
 
                     <tr>
+<<<<<<< HEAD
 
                         <th>Applicant Name</th>
 
@@ -94,6 +125,12 @@ $app_res = mysqli_query($conn, $app_query);
 
                         <th class="text-end">Actions</th>
 
+=======
+                        <th scope="col">Applicant Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Applied Date</th>
+                        <th scope="col" class="text-end">Actions</th>
+>>>>>>> b26d7cfd94258eb8d57bc8686cd819d214ceb9fb
                     </tr>
 
                 </thead>
@@ -101,6 +138,7 @@ $app_res = mysqli_query($conn, $app_query);
 
 
                 <tbody>
+<<<<<<< HEAD
 
 
                 <?php if ($app_res && mysqli_num_rows($app_res) > 0): ?>
@@ -175,6 +213,30 @@ $app_res = mysqli_query($conn, $app_query);
                 <?php endif; ?>
 
 
+=======
+                    <?php if ($result && mysqli_num_rows($result) > 0): ?>
+                        <?php while ($app = mysqli_fetch_assoc($result)): ?>
+                            <tr>
+                                <td class="fw-bold text-dark"><?php echo htmlspecialchars($app['name'] ?? 'Candidate'); ?></td>
+                                <td><?php echo htmlspecialchars($app['email'] ?? 'N/A'); ?></td>
+                                <td><?php echo htmlspecialchars($app['created_at'] ?? 'N/A'); ?></td>
+                                <td class="text-end">
+                                    <?php if (!empty($app['cv_file'])): ?>
+                                        <a href="../uploads/<?php echo htmlspecialchars($app['cv_file']); ?>" target="_blank" class="btn btn-sm btn-outline-primary">View CV</a>
+                                    <?php else: ?>
+                                        <span class="text-muted">No CV File</span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="4" class="text-center py-5">
+                                <p class="text-muted mb-0">No candidates have applied for this job yet.</p>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+>>>>>>> b26d7cfd94258eb8d57bc8686cd819d214ceb9fb
                 </tbody>
 
 
@@ -186,6 +248,12 @@ $app_res = mysqli_query($conn, $app_query);
 
 </div>
 
+<<<<<<< HEAD
 
 
 <?php include_once '../includes/footer.php'; ?>
+=======
+<?php 
+include_once '../includes/footer.php'; 
+?>
+>>>>>>> b26d7cfd94258eb8d57bc8686cd819d214ceb9fb
