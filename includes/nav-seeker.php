@@ -288,17 +288,9 @@ ob_start();
 
                 <ul class="navbar-nav ms-auto align-items-lg-center gap-2">
 
-                    <!-- Home -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Jop-Portal/index.php">
-                            <i class="bi bi-house-door-fill"></i>
-                            <span>Home</span>
-                        </a>
-                    </li>
-
                     <!-- Jobs -->
                     <li class="nav-item">
-                        <a class="nav-link" href="/Jop-Portal/jobs.php">
+                        <a class="nav-link" href="/Jop-Portal/seeker/jobs.php">
                             <i class="bi bi-search"></i>
                             <span>Jobs</span>
                         </a>

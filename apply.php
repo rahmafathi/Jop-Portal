@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 include_once "includes/db.php";
 include_once "includes/functions.php";
 include_once "includes/header.php";
-include_once "includes/nav.php";
+include_once "includes/nav-seeker.php";
 
 
 // =====================================

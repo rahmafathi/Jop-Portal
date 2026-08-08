@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 03, 2026 at 05:58 PM
+-- Generation Time: Aug 05, 2026 at 10:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -37,6 +37,15 @@ CREATE TABLE `application` (
   `applied_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `application`
+--
+
+INSERT INTO `application` (`id`, `job_id`, `seeker_id`, `cv`, `cover_letter`, `status`, `applied_at`) VALUES
+(7, 29, 6, 'cv_sample.pdf', 'I am very interested in this position.', 'pending', '2026-08-05 07:53:56'),
+(8, 29, 8, 'cv_sample.pdf', 'I am very interested.', 'pending', '2026-08-05 08:00:41'),
+(9, 31, 8, 'cv_sample.pdf', 'I am very interested in this position.', 'pending', '2026-08-05 08:15:21');
+
 -- --------------------------------------------------------
 
 --
@@ -61,7 +70,7 @@ INSERT INTO `categories` (`id`, `category_name`, `created_at`) VALUES
 (5, 'Cyber Security', '2026-08-02 23:17:22'),
 (6, 'UI/UX Design', '2026-08-02 23:17:43'),
 (7, 'Engineering', '2026-08-02 23:18:05'),
-(8, 'Digital Marketing', '2026-08-02 23:18:23');
+(9, 'Digital Marketing', '2026-08-03 20:21:31');
 
 -- --------------------------------------------------------
 
@@ -85,7 +94,8 @@ CREATE TABLE `companies` (
 --
 
 INSERT INTO `companies` (`id`, `user_id`, `company_name`, `description`, `website`, `location`, `logo`, `created_at`) VALUES
-(1, 1, 'Google Egypt', 'Leading technology company', 'https://google.com', 'Cairo', 'google.png', '2026-08-03 01:05:37');
+(2, 5, 'Malak Company', 'Software Company', 'https://test.com', 'Cairo', 'logo.png', '2026-08-03 22:59:04'),
+(3, 7, 'ZooZ', '', 'https://eng-zooz.vercel.app/', '', '1785908853_WhatsApp Image 2025-12-09 at 2.14.30 PM.jpeg', '2026-08-05 05:17:00');
 
 -- --------------------------------------------------------
 
@@ -102,6 +112,7 @@ CREATE TABLE `jobs` (
   `requirements` text DEFAULT NULL,
   `salary` decimal(10,2) DEFAULT NULL,
   `location` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `job_type` enum('full time','part time','remote,internship') NOT NULL,
   `experience` varchar(50) DEFAULT NULL,
   `deadline` date DEFAULT NULL,
@@ -113,8 +124,29 @@ CREATE TABLE `jobs` (
 -- Dumping data for table `jobs`
 --
 
-INSERT INTO `jobs` (`id`, `company_id`, `category_id`, `title`, `description`, `requirements`, `salary`, `location`, `job_type`, `experience`, `deadline`, `status`, `created_at`) VALUES
-(1, 1, 1, 'Frontend Developer', 'Build responsive websites using HTML CSS Bootstrap and JavaScript.', 'HTML CSS Bootstrap JavaScript', 15000.00, 'Cairo', 'full time', '2 years', '2026-09-30', 'open', '2026-08-03 01:08:48');
+INSERT INTO `jobs` (`id`, `company_id`, `category_id`, `title`, `description`, `requirements`, `salary`, `location`, `email`, `job_type`, `experience`, `deadline`, `status`, `created_at`) VALUES
+(29, 2, 1, 'zooz', 'full stack', NULL, 50000.00, 'cairo', '', 'full time', NULL, NULL, 'open', '2026-08-04 01:46:37'),
+(31, 3, 2, 'full stack', 'fdfgdfg', NULL, 50000.00, '111111', 'zizosobhy306@gmail.com', 'full time', NULL, NULL, 'open', '2026-08-05 05:18:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `saved_jobs`
+--
+
+CREATE TABLE `saved_jobs` (
+  `id` int(11) NOT NULL,
+  `seeker_id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `saved_jobs`
+--
+
+INSERT INTO `saved_jobs` (`id`, `seeker_id`, `job_id`, `created_at`) VALUES
+(1, 8, 29, '2026-08-05 08:20:04');
 
 -- --------------------------------------------------------
 
@@ -128,30 +160,28 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `phone` varchar(20) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
   `role` enum('admin','company','job_seeker') NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `skills` text DEFAULT NULL,
+  `experience` text DEFAULT NULL,
+  `education` text DEFAULT NULL,
+  `profile_image` varchar(255) DEFAULT NULL,
+  `cv_file` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
-
-ALTER TABLE `users` 
-ADD COLUMN `address` TEXT NULL AFTER `phone`,
-ADD COLUMN `skills` TEXT NULL AFTER `address`,
-ADD COLUMN `experience` TEXT NULL AFTER `skills`,
-ADD COLUMN `education` TEXT NULL AFTER `experience`,
-ADD COLUMN `profile_image` VARCHAR(255) NULL AFTER `education`,
-ADD COLUMN `cv_file` VARCHAR(255) NULL AFTER `profile_image`;
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `role`, `created_at`) VALUES
-(1, 'kholoud emam', 'kholoudemam918@gmail.com', '$2y$10$QW0Ml53QcV2hx.18FZWMCOcsdz0QTfdgiNbEXpYqW34ul1ILr23Ha', '01011111111', 'company', '2026-08-02 01:08:45'),
-(3, 'jjjjjj', 'k@gmail.com', '$2y$10$2VdE.ljNdmTEVNcZEdQNRe.tjWKScLBcZKdD/6.H0nwXSbTeKlr/S', '111111111', 'job_seeker', '2026-08-02 13:57:56'),
-(4, 'admin', 'Admin@gmail.com', '$2y$10$Buyht6iSHdnAARNwxVnEfe9U30kE2gsE3EEBI5dD7Ih/PwlBZWkVG', '111111', 'admin', '2026-08-02 14:14:10');
-
-
-
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `address`, `role`, `created_at`, `skills`, `experience`, `education`, `profile_image`, `cv_file`) VALUES
+(1, 'kholoud emam', 'kholoudemam918@gmail.com', '$2y$10$QW0Ml53QcV2hx.18FZWMCOcsdz0QTfdgiNbEXpYqW34ul1ILr23Ha', '01011111111', NULL, 'company', '2026-08-02 01:08:45', NULL, NULL, NULL, NULL, NULL),
+(3, 'jjjjjj', 'k@gmail.com', '$2y$10$2VdE.ljNdmTEVNcZEdQNRe.tjWKScLBcZKdD/6.H0nwXSbTeKlr/S', '111111111', NULL, 'job_seeker', '2026-08-02 13:57:56', NULL, NULL, NULL, NULL, NULL),
+(4, 'admin ', 'Admin@gmail.com', '$2y$10$pdC4Phb.iEAaLMLn8IR9febGqMXSAkvylMErDFCcF7U.UQgQF9hDG', '111111', NULL, 'admin', '2026-08-02 14:14:10', NULL, NULL, NULL, NULL, NULL),
+(5, 'malak', 'malak@gmail.com', '$2y$10$u9OUBKMizc/G3mpHI8hwPumNq9qzAirsESyC4Mhb1ilKkt.pyTClK', '0123456', NULL, 'company', '2026-08-03 21:22:53', NULL, NULL, NULL, NULL, NULL),
+(6, 'zyad', 'zizosobhy306@gmail.com', '$2y$10$KlJaFnc1rFDZXJhVeXaJSuaWSbrVrATU5fzHBxWqQCYw/SHt0dedG', '01033748811', NULL, 'job_seeker', '2026-08-05 01:34:52', NULL, NULL, NULL, NULL, NULL),
+(7, 'zyad', 'zyad@gmail.com', '$2y$10$UFb8jS4K3Fasne5hqGm2/emmOF/ASdStD6uU1iRxSfAnHlb2g5IES', '01033748811', NULL, 'company', '2026-08-05 05:17:00', NULL, NULL, NULL, NULL, NULL),
+(8, 'zooz', 'z123@gmail.com', '$2y$10$zNHHj8SqjWqTs7fEwjMq3uqyUO6CxEpUZgTfYj3tN5EaC6WSIX3BS', '01033748811', '', 'job_seeker', '2026-08-05 07:12:40', '', '', '', '1785916315_ZoooooooooooZ.jpeg', '1785915613_M3aarf_Certificate (1).pdf');
 
 --
 -- Indexes for dumped tables
@@ -187,6 +217,14 @@ ALTER TABLE `jobs`
   ADD KEY `category_id` (`category_id`);
 
 --
+-- Indexes for table `saved_jobs`
+--
+ALTER TABLE `saved_jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `seeker_id` (`seeker_id`),
+  ADD KEY `job_id` (`job_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -200,31 +238,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `application`
 --
 ALTER TABLE `application`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT for table `saved_jobs`
+--
+ALTER TABLE `saved_jobs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
@@ -249,28 +293,13 @@ ALTER TABLE `companies`
 ALTER TABLE `jobs`
   ADD CONSTRAINT `jobs_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `jobs_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON UPDATE CASCADE;
+
 --
--- Table structure for table `saved_jobs`
+-- Constraints for table `saved_jobs`
 --
-
-CREATE TABLE `saved_jobs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `seeker_id` int(11) NOT NULL,
-  `job_id` int(11) NOT NULL,
-  `saved_at` timestamp NOT NULL DEFAULT current_timestamp(),
-
-  PRIMARY KEY (`id`),
-  KEY `seeker_id` (`seeker_id`),
-  KEY `job_id` (`job_id`),
-
-  CONSTRAINT `saved_jobs_ibfk_1`
-    FOREIGN KEY (`seeker_id`) REFERENCES `users` (`id`)
-    ON DELETE CASCADE ON UPDATE CASCADE,
-
-  CONSTRAINT `saved_jobs_ibfk_2`
-    FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`)
-    ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+ALTER TABLE `saved_jobs`
+  ADD CONSTRAINT `saved_jobs_ibfk_1` FOREIGN KEY (`seeker_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `saved_jobs_ibfk_2` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

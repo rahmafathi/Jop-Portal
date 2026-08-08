@@ -24,7 +24,7 @@ function redirect($url)
 function checkLogin()
 {
     if (!isset($_SESSION['user_id'])) {
-        redirect("/Jop-Portal/login.php"); // تعديل المسار هنا
+        redirect("/Jop-Portal/login.php");
     }
 }
 
@@ -32,7 +32,7 @@ function checkAdmin()
 {
     checkLogin();
     if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-        redirect("/Jop-Portal/index.php"); // وتعديل المسار هنا كمان
+        redirect("/Jop-Portal/index.php");
     }
 }
 
@@ -51,14 +51,23 @@ function setMessage($type, $msg)
 function displayMessage()
 {
     if (isset($_SESSION['message'])) {
-        $type = $_SESSION['message']['type'];
-        $text = $_SESSION['message']['text'];
-        echo "
-        <div class='alert alert-{$type} alert-dismissible fade show my-3' role='alert'>
-            {$text}
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        // التحقق مما إذا كانت الرسالة مصفوفة أم نص عادي لمنع أي خطأ مستقبلي
+        if (is_array($_SESSION['message'])) {
+            $type = $_SESSION['message']['type'];
+            $text = $_SESSION['message']['text'];
+        } else {
+            $type = 'success';
+            $text = $_SESSION['message'];
+        }
+
+        // تحويل نوع success أو danger لتتوافق مع الـ Dark Theme المخصص
+        echo '
+        <div class="alert alert-' . $type . ' alert-dismissible fade show text-center shadow-sm rounded-4 my-3" role="alert" style="background: rgba(30, 41, 59, 0.95); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff;">
+            ' . htmlspecialchars($text) . '
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        ";
+        ';
+        
         unset($_SESSION['message']);
     }
 }

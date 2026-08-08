@@ -30,50 +30,152 @@ if (mysqli_num_rows($result) == 0) {
 $job = mysqli_fetch_assoc($result);
 ?>
 
-<div class="container mt-5">
+<style>
+    :root {
+        --bg-main: #0b0f19;
+        --card-bg: rgba(17, 24, 39, 0.85);
+        --border-color: rgba(255, 255, 255, 0.08);
+        --primary-neon: #38bdf8;
+        --accent-glow: rgba(56, 189, 248, 0.25);
+        --text-main: #f3f4f6;
+        --text-muted: #9ca3af;
+    }
 
-    <div class="card shadow">
+    body {
+        background-color: var(--bg-main) !important;
+        color: var(--text-main) !important;
+    }
 
-        <div class="card-body">
+    .details-wrapper {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
 
-            <h2><?= $job['title']; ?></h2>
+    .details-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-glow);
+    }
 
-            <h5 class="text-primary">
-                <?= $job['company_name']; ?>
-            </h5>
+    .job-title {
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--text-main);
+        margin-bottom: 5px;
+    }
 
-            <hr>
+    .company-name {
+        font-size: 18px;
+        color: var(--primary-neon) !important;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
 
-            <p><strong>Category:</strong> <?= $job['category_name']; ?></p>
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+        background: rgba(0,0,0,0.2);
+        padding: 20px;
+        border-radius: 12px;
+    }
 
-            <p><strong>Location:</strong> <?= $job['location']; ?></p>
+    .info-item p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 14px;
+    }
 
-            <p><strong>Salary:</strong> <?= $job['salary']; ?></p>
+    .info-item strong {
+        display: block;
+        color: var(--text-main);
+        font-size: 16px;
+    }
 
-            <p><strong>Job Type:</strong> <?= $job['job_type']; ?></p>
+    .section-title {
+        color: var(--primary-neon);
+        font-size: 20px;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        border-left: 4px solid var(--primary-neon);
+        padding-left: 15px;
+    }
 
-            <p><strong>Experience:</strong> <?= $job['experience']; ?></p>
+    .description-text {
+        color: var(--text-muted);
+        line-height: 1.8;
+        font-size: 16px;
+    }
 
-            <p><strong>Description:</strong></p>
+    /* Buttons Styling */
+    .btn-action-container {
+        margin-top: 40px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
 
-            <p><?= $job['description']; ?></p>
+    .pro-btn {
+        padding: 12px 30px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
 
-            <p><strong>Requirements:</strong></p>
+    /* Professional Back Button */
+    .btn-back {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: var(--text-main);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .btn-back:hover {
+        background: rgba(56, 189, 248, 0.1);
+        border-color: rgba(56, 189, 248, 0.4);
+        color: var(--primary-neon);
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+        transform: translateY(-2px);
+    }
+</style>
 
-            <p><?= $job['requirements']; ?></p>
-
-            <a href="jobs.php" class="btn btn-secondary">
-                Back
-            </a>
-
-            <a href="#" class="btn btn-success">
-                Apply Now
-            </a>
-
+<div class="details-wrapper">
+    <div class="details-card">
+        <h2 class="job-title"><?= htmlspecialchars($job['title']); ?></h2>
+        <h5 class="company-name"><?= htmlspecialchars($job['company_name']); ?></h5>
+        
+        <div class="info-grid">
+            <div class="info-item"><p>Category</p><strong><?= htmlspecialchars($job['category_name']); ?></strong></div>
+            <div class="info-item"><p>Location</p><strong><?= htmlspecialchars($job['location']); ?></strong></div>
+            <div class="info-item"><p>Salary</p><strong><?= htmlspecialchars($job['salary']); ?></strong></div>
+            <div class="info-item"><p>Job Type</p><strong><?= htmlspecialchars($job['job_type']); ?></strong></div>
+            <div class="info-item"><p>Experience</p><strong><?= htmlspecialchars($job['experience']); ?></strong></div>
         </div>
 
-    </div>
+        <h4 class="section-title">Job Description</h4>
+        <div class="description-text"><?= nl2br(htmlspecialchars($job['description'])); ?></div>
 
+        <h4 class="section-title">Requirements</h4>
+        <div class="description-text"><?= nl2br(htmlspecialchars($job['requirements'])); ?></div>
+
+        <div class="btn-action-container">
+            <a href="../seeker/jobs.php" class="pro-btn btn-back">
+                <i class="fas fa-arrow-left"></i> Back to Jobs
+            </a>
+        </div>
+    </div>
 </div>
 
 <?php

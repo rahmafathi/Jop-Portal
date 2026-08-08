@@ -8,46 +8,30 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'job_seeker') {
 
 include_once "../includes/db.php";
 
-if (!isset($_GET['id'])) {
-    die("Job not found");
-}
+if (isset($_GET['id'])) {
+    $userId = $_SESSION['user_id'];
+    $jobId = mysqli_real_escape_string($conn, $_GET['id']);
+    
+    $cv = 'cv_sample.pdf';
+    $coverLetter = 'I am very interested in this position.';
+    $status = 'pending';
 
-$job_id = intval($_GET['id']);
-$seeker_id = $_SESSION['user_id'];
+    // التحقق هل قدم مسبقاً
+    $check = mysqli_query($conn, "SELECT * FROM application WHERE job_id = '$jobId' AND seeker_id = '$userId'");
+    if (mysqli_num_rows($check) > 0) {
+        echo "<script>alert('You have already applied for this job!'); window.location.href='jobs.php';</script>";
+        exit();
+    }
 
-// التأكد إن المستخدم مقدمش قبل كده
-$check = mysqli_query($conn,
-"SELECT * FROM applications
-WHERE job_id='$job_id'
-AND seeker_id='$seeker_id'");
-
-if(mysqli_num_rows($check) > 0){
-
-    echo "<script>
-    alert('You already applied for this job');
-    window.location='jobs.php';
-    </script>";
-
-    exit();
-}
-
-// إضافة الطلب
-
-$sql = "INSERT INTO applications
-(job_id,seeker_id,status)
-VALUES
-('$job_id','$seeker_id','Pending')";
-
-if(mysqli_query($conn,$sql)){
-
-    echo "<script>
-    alert('Application Submitted Successfully');
-    window.location='jobs.php';
-    </script>";
-
-}else{
-
-    echo mysqli_error($conn);
-
+    // الإدخال
+    $sql = "INSERT INTO application (job_id, seeker_id, cv, cover_letter, status, applied_at) 
+            VALUES ('$jobId', '$userId', '$cv', '$coverLetter', '$status', NOW())";
+    
+    if (mysqli_query($conn, $sql)) {
+        echo "<script>alert('Application submitted successfully!'); window.location.href='dashboard.php';</script>";
+        exit();
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
 }
 ?>
